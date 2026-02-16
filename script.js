@@ -15,7 +15,12 @@ div.className="match";
 
 div.innerHTML=`
 <h2>${match.matchInfo.team1.teamName} vs ${match.matchInfo.team2.teamName}</h2>
-<p>${match.matchInfo.status}</p>
+let cls="upcoming";
+if(status.toLowerCase().includes("live")) cls="live";
+if(status.toLowerCase().includes("won") || status.toLowerCase().includes("match over")) cls="result";
+
+<p class="status ${cls}">${status}</p>
+
 `;
 
 container.appendChild(div);
@@ -28,3 +33,4 @@ container.appendChild(div);
 
 loadMatches();
 setInterval(loadMatches,20000);
+
