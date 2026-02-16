@@ -1,0 +1,19 @@
+body {
+font-family: Arial;
+background:#0b1e2d;
+color:white;
+text-align:center;
+}
+
+header{
+background:#112f45;
+padding:15px;
+}
+
+.match{
+background:#163a52;
+margin:15px auto;
+padding:15px;
+width:80%;
+border-radius:10px;
+}
