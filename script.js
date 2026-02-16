@@ -9,6 +9,13 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
     });
 });
 
+const popup = document.getElementById("match-popup");
+const popupContent = document.getElementById("match-details");
+const closeBtn = document.querySelector(".close-btn");
+
+closeBtn.onclick = ()=> popup.style.display="none";
+window.onclick = e=> { if(e.target==popup) popup.style.display="none"; };
+
 async function loadMatches() {
     const container = document.getElementById("matches");
     container.innerHTML = "Loading matches...";
@@ -56,6 +63,10 @@ async function loadMatches() {
                         <div class="score">${scoreText}</div>
                         <div class="status ${cls}">${status}</div>
                     `;
+
+                    // Click to open popup
+                    div.onclick = ()=> showMatchDetails(match.matchInfo.matchId);
+
                     container.appendChild(div);
                 });
             });
@@ -71,5 +82,48 @@ async function loadMatches() {
     }
 }
 
+// Show popup with match details
+async function showMatchDetails(matchId){
+    popup.style.display="block";
+    popupContent.innerHTML="Loading match details...";
+
+    try{
+        const res = await fetch(`/api/live`); // Reuse API call
+        const data = await res.json();
+
+        // Find the match by ID
+        let selectedMatch = null;
+        data.typeMatches.forEach(type=>{
+            type.seriesMatches.forEach(series=>{
+                series.seriesAdWrapper?.matches?.forEach(match=>{
+                    if(match.matchInfo.matchId===matchId) selectedMatch=match;
+                });
+            });
+        });
+
+        if(!selectedMatch){
+            popupContent.innerHTML="Match details not found.";
+            return;
+        }
+
+        let html = `<h2>${selectedMatch.matchInfo.team1.teamName} vs ${selectedMatch.matchInfo.team2.teamName}</h2>`;
+        html += `<p>Status: ${selectedMatch.matchInfo.status}</p>`;
+
+        // Add scores
+        if(selectedMatch.matchScore){
+            const t1 = selectedMatch.matchScore.team1Score?.inngs1;
+            const t2 = selectedMatch.matchScore.team2Score?.inngs1;
+            if(t1) html+=`<p>${selectedMatch.matchInfo.team1.teamName}: ${t1.runs}/${t1.wickets} (${t1.overs} ov)</p>`;
+            if(t2) html+=`<p>${selectedMatch.matchInfo.team2.teamName}: ${t2.runs}/${t2.wickets} (${t2.overs} ov)</p>`;
+        }
+
+        popupContent.innerHTML=html;
+
+    }catch(err){
+        popupContent.innerHTML="Failed to load match details.";
+        console.error(err);
+    }
+}
+
 loadMatches();
-setInterval(loadMatches, 20000);
+setInterval(loadMatches,20000);
