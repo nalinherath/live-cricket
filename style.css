@@ -1,53 +1,22 @@
-body{
-    background:#0a1622;
-    font-family:Segoe UI,Arial;
-    color:white;
-    margin:0;
-}
-header{
-    background:#0f2a3d;
-    padding:18px;
+.tabs{
     text-align:center;
-    box-shadow:0 2px 10px rgba(0,0,0,0.5);
-}
-h1{
-    margin:0;
-    color:#00d4ff;
-}
-#matches{
-    max-width:900px;
-    margin:20px auto;
-    padding:10px;
-}
-.match{
-    background:#122b3f;
     margin:15px 0;
-    padding:18px;
-    border-radius:14px;
-    box-shadow:0 4px 14px rgba(0,0,0,.4);
-    transition:0.25s;
 }
-.match:hover{
-    transform:scale(1.02);
+.tab-btn{
     background:#16364f;
-}
-.teams{
-    font-size:20px;
+    border:none;
+    padding:10px 20px;
+    margin:0 5px;
+    border-radius:10px;
+    color:white;
+    cursor:pointer;
     font-weight:bold;
-    margin-bottom:10px;
+    transition:0.2s;
 }
-.score{
-    font-size:18px;
-    margin:8px 0;
-    color:#9fe8ff;
+.tab-btn.active{
+    background:#00d4ff;
+    color:#0a1622;
 }
-.status{
-    font-size:14px;
-    padding:6px 10px;
-    border-radius:20px;
-    display:inline-block;
-    margin-top:8px;
+.tab-btn:hover{
+    background:#1c4a67;
 }
-.live{ background:#e63946; }
-.result{ background:#2a9d8f; }
-.upcoming{ background:#f4a261; }
